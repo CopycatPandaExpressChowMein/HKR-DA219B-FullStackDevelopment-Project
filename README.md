@@ -6,3 +6,12 @@ Repository for the group project in the Full Stack Development (DA219B) course a
 - Express
 - React
 - Node
+
+# To Install
+
+## Clone git or Download
+`https://github.com/CopycatPandaExpressChowMein/HKR-DA219B-FullStackDevelopment-Project.git`
+
+## Installing dependencies
+Open the repository folder in Terminal (Administrator) and run:
+`npm ci`

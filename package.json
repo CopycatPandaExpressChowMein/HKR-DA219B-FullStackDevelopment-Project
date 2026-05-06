@@ -1,0 +1,29 @@
+{
+  "name": "hkr-da219b-fullstackdevelopment-project",
+  "version": "1.0.0",
+  "description": "Repository for the group project in the Full Stack Development (DA219B) course at HKR.",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CopycatPandaExpressChowMein/HKR-DA219B-FullStackDevelopment-Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/CopycatPandaExpressChowMein/HKR-DA219B-FullStackDevelopment-Project/issues"
+  },
+  "homepage": "https://github.com/CopycatPandaExpressChowMein/HKR-DA219B-FullStackDevelopment-Project#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "morgan": "^1.10.1",
+    "react": "^19.2.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
