@@ -4,7 +4,6 @@
   "description": "Repository for the group project in the Full Stack Development (DA219B) course at HKR.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
