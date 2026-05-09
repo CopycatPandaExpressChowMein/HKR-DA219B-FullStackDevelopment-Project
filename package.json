@@ -4,6 +4,9 @@
   "description": "Repository for the group project in the Full Stack Development (DA219B) course at HKR.",
   "main": "index.js",
   "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
@@ -12,18 +15,21 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/CopycatPandaExpressChowMein/HKR-DA219B-FullStackDevelopment-Project/issues"
   },
   "homepage": "https://github.com/CopycatPandaExpressChowMein/HKR-DA219B-FullStackDevelopment-Project#readme",
   "dependencies": {
+    "@vitejs/plugin-react": "^6.0.1",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "morgan": "^1.10.1",
-    "react": "^19.2.5"
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "vite": "^7.1.7"
   }
 }
