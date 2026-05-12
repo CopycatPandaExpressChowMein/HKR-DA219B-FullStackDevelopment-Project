@@ -43,6 +43,12 @@ body {
   border-bottom: 4px solid var(--gold);
 }
 
+.page {
+  padding: 48px 0;
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
 .brand-kicker {
   display: inline-block;
   margin-bottom: 4px;
@@ -220,6 +226,8 @@ main {
 .site-footer p {
   color: #ffffff;
 }
+
+
 
 @media (max-width: 860px) {
   .site-header,
