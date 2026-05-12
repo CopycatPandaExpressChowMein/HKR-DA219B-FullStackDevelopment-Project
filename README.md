@@ -15,3 +15,15 @@ Repository for the group project in the Full Stack Development (DA219B) course a
 ## Installing dependencies
 Open the repository folder in Terminal (Administrator) and run:
 `npm ci`
+
+# Running the server
+The package.json file included in the repository comes pre-configured with commands to make running the server easier, more info below.
+
+## Normal start
+Open the repository folder in Terminal (Administrator) and run:
+`npm run start`
+
+## Dev start
+With the dev start, the server uses 'nodemon' to make development easier.
+Open the repository folder in Terminal (Administrator) and run:
+`npm run dev`
