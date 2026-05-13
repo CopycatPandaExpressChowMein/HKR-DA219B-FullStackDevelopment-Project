@@ -4,6 +4,8 @@
   "description": "Repository for the group project in the Full Stack Development (DA219B) course at HKR.",
   "main": "index.js",
   "scripts": {
+    "start": "node --env-file=.env app",
+    "dev": "npx nodemon --env-file=.env app"
   },
   "repository": {
     "type": "git",
@@ -12,7 +14,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/CopycatPandaExpressChowMein/HKR-DA219B-FullStackDevelopment-Project/issues"
   },
