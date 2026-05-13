@@ -6,7 +6,7 @@
   "scripts": {
     "vite_dev": "vite",
     "vite_build": "vite build",
-    "vite_preview": "vite preview"
+    "vite_preview": "vite preview",
     "node_start": "node --env-file=.env app",
     "node_dev": "npx nodemon --env-file=.env app"
   },
