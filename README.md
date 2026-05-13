@@ -28,7 +28,7 @@ npm ci
 <p>Open the repository folder in Terminal (Administrator) and run:<br></p>
 
 ```bash
-npm run start
+npm run node_start
 ```
 
 
@@ -37,5 +37,5 @@ npm run start
 Open the repository folder in Terminal (Administrator) and run:<br></p>
 
 ```bash
-npm run dev
+npm run node_dev
 ```
