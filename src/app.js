@@ -1,6 +1,6 @@
 import express from 'express'
 import logger from 'morgan'
-import {ROUTER} from './routes/routes_index.js'
+import {ROUTER} from '../routes/routes_index.js'
 
 
 const APP = express()

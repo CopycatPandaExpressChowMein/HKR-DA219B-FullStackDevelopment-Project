@@ -6,9 +6,9 @@
   "scripts": {
     "vite_dev": "vite",
     "vite_build": "vite build",
-    "vite_preview": "vite preview"
-    "node_start": "node --env-file=.env app",
-    "node_dev": "npx nodemon --env-file=.env app"
+    "vite_preview": "vite preview",
+    "node_start": "node --env-file=.env ./src/app",
+    "node_dev": "npx nodemon --env-file=.env ./src/app.js"
   },
   "repository": {
     "type": "git",
@@ -28,7 +28,8 @@
     "express": "^5.2.1",
     "morgan": "^1.10.1",
     "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "react-dom": "^19.2.5",
+    "mongoose": "^9.6.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.14",
