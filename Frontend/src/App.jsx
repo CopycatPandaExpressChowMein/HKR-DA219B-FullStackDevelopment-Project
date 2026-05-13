@@ -48,6 +48,7 @@ function App() {
             <span className="brand-kicker">Sverige</span>
             <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
               <h1>Police Event Tracker</h1>
+
             </Link>
           </div>
 
