@@ -4,16 +4,11 @@
   "description": "Repository for the group project in the Full Stack Development (DA219B) course at HKR.",
   "main": "index.js",
   "scripts": {
-    "vite_dev": "vite",
-    "vite_build": "vite build",
-    "vite_preview": "vite preview",
-<<<<<<< HEAD
-    "node_start": "node --env-file=.env app",
-    "node_dev": "npx nodemon --env-file=.env app"
-=======
+    "vite_dev": "vite --config config/vite.config.js",
+    "vite_build": "vite build --config config/vite.config.js",
+    "vite_preview": "vite preview --config config/vite.config.js",
     "node_start": "node --env-file=.env ./src/app",
     "node_dev": "npx nodemon --env-file=.env ./src/app.js"
->>>>>>> 1244b1f3588a1cecbddcc1b64208123933433f50
   },
   "repository": {
     "type": "git",
@@ -39,6 +34,6 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.14",
-    "vite": "^7.1.7"
+    "vite": "^8.0.12"
   }
 }

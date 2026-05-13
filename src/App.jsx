@@ -9,7 +9,7 @@ import Admin from './components/Admin'
 
 // den här får vi ändra till true sen när vi kopplat ihop backend
 // för att kunna se den nu så är den false
-const isAdmin = false  
+const isAdmin = false
 
 const starterCards = [
   {
@@ -58,10 +58,10 @@ function App() {
             <Link to="/mina-sidor">
               <button className="header-link" type="button">Mina sidor</button>
             </Link>
-            {isAdmin && ( <Link to="/admin">
-            <button className="header-link" type="button">Admin</button>
+            {isAdmin && (<Link to="/admin">
+              <button className="header-link" type="button">Admin</button>
             </Link>)}
-          
+
 
             <div className="menu-wrapper">
               <button
