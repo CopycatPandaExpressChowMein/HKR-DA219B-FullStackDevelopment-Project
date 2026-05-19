@@ -1,14 +1,12 @@
 import express from 'express'
+import path from 'path'
 
 const ROUTER = express.Router()
 
 // +----------+ New routes from imports go here +---------+
 
-
-//Route for testing
-//TO BE REMOVED
-ROUTER.get('/test', (req, res) => {
-    res.send('This is a test route.')
+ROUTER.get('/*splat', (req, res) => {
+    res.sendFile(path.resolve('./public/index.html'))
 })
 
 // +------------------------------------------------------+
