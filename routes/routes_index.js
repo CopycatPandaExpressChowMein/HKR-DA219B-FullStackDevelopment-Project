@@ -4,6 +4,8 @@ import express from 'express'
 import {ROUTER as WEBPAGEROUTER} from './routes_webpages.js'
 import {ROUTER as LOGINROUTER} from './routes_login.js'
 import {ROUTER as CRUDROUTER} from './routes_CRUD.js'
+import { ROUTER as LOGIN_ROUTER } from "./routes_login.js";
+
 // +----------------------------------------------+
 
 const ROUTER = express.Router()
@@ -12,6 +14,7 @@ const ROUTER = express.Router()
 ROUTER.use('/', WEBPAGEROUTER)
 ROUTER.use('/login', LOGINROUTER)
 ROUTER.use('/CRUD', CRUDROUTER)
+ROUTER.use("/auth", LOGIN_ROUTER);
 // +------------------------------------------------------+
 
 

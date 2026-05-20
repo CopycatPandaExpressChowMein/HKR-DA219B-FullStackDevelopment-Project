@@ -4,9 +4,18 @@ import cron from 'node-cron'
 import {ROUTER} from './routes/routes_index.js'
 import {connect} from './config/db.js'
 import {retrieve, addToDB} from './models/police_api_connection.js'
+import cors from "cors";
+import dotenv from "dotenv";
+
+
+
+dotenv.config();
 
 const APP = express()
 const DB = connect()
+
+APP.use(cors());
+APP.use(express.json());
 
 cron.schedule('*/10 * * * *', async () => {
     const data = await retrieve()
@@ -27,3 +36,5 @@ const PORT = process.env.PORT || 3001 //Different port from .env
 APP.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`)
 })
+
+
