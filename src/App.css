@@ -1,3 +1,4 @@
+/* sidans färger */
 :root {
   --bg: #f5f5f5;
   --surface: #ffffff;
@@ -11,10 +12,12 @@
   --radius: 20px;
 }
 
+/* reset alla ellement */
 * {
   box-sizing: border-box;
 }
 
+/* body  */
 body {
   margin: 0;
   min-width: 320px;
@@ -31,6 +34,7 @@ body {
   min-height: 100vh;
 }
 
+/* header */
 .site-header {
   position: sticky;
   top: 0;
@@ -41,12 +45,6 @@ body {
   padding: 20px 24px;
   background: var(--primary);
   border-bottom: 4px solid var(--gold);
-}
-
-.page {
-  padding: 48px 0;
-  width: min(1120px, calc(100% - 32px));
-  margin: 0 auto;
 }
 
 .brand-kicker {
@@ -64,6 +62,7 @@ body {
   color: #ffffff;
 }
 
+/* header knappar och iikoner */
 .header-actions {
   display: flex;
   align-items: center;
@@ -84,28 +83,19 @@ body {
   height: 56px;
 }
 
-.login-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 16px;
-}
-
-.login-close {
-  margin-top: 8px;
-  width: 100%;
-}
-
-.login-icon {
-  width: 35px;
-  height: 35px;
-}
 .header-icon {
   width: 35px;
   height: 35px;
   display: block;
   object-fit: contain;
 }
+
+.login-icon {
+  width: 35px;
+  height: 35px;
+}
+
+/*  meny som man klickar på*/
 .menu-wrapper {
   position: relative;
 }
@@ -133,11 +123,19 @@ body {
   background: #f5f5f5;
 }
 
+/* main sidan*/
 main {
   width: min(1120px, calc(100% - 32px));
   margin: 0 auto;
 }
 
+.page {
+  padding: 48px 0;
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+/* hero sektionen */
 .hero-section,
 .featured-section,
 .feed-section {
@@ -173,23 +171,6 @@ main {
   color: var(--muted);
 }
 
-.login-input {
-  width: 100%;
-  padding: 10px 14px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  font-family: Arial, sans-serif;
-  font-size: 1rem;
-  margin-bottom: 8px;
-}
-
-.login-switch {
-  color: var(--primary);
-  cursor: pointer;
-  text-align: center;
-  margin-top: 8px;
-  font-weight: 700;
-}
 .section-heading {
   margin-bottom: 24px;
   text-align: center;
@@ -201,45 +182,12 @@ main {
   color: var(--text);
 }
 
+/* kort grid */
 .card-grid {
   display: grid;
   gap: 22px;
 }
 
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-}
-
-
-.modal-card {
-  background: var(--surface);
-  border-top: 4px solid var(--gold);
-  border-radius: var(--radius);
-  padding: 40px;
-  width: min(480px, calc(100% - 32px));
-  box-shadow: var(--shadow);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.modal-close {
-  margin-top: 16px;
-  padding: 10px 24px;
-  border: 2px solid var(--primary);
-  border-radius: 999px;
-  background: var(--primary);
-  color: var(--gold);
-  font-weight: 700;
-  cursor: pointer;
-  align-self: flex-end;
-}
 .featured-grid {
   grid-template-columns: repeat(3, 1fr);
 }
@@ -281,30 +229,79 @@ main {
   line-height: 1.7;
 }
 
-.skip-link {
-  position: absolute;
-  left: -9999px;
-}
-.skip-link:focus {
-  left: 8px;
-  top: 8px;
+/* modal*/
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
 }
 
-.site-footer {
+.modal-card {
+  background: var(--surface);
+  border-top: 4px solid var(--gold);
+  border-radius: var(--radius);
+  padding: 40px;
+  width: min(480px, calc(100% - 32px));
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-large {
+  width: min(700px, calc(100% - 32px));
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-close {
+  margin-top: 16px;
+  padding: 10px 24px;
+  border: 2px solid var(--primary);
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--gold);
+  font-weight: 700;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+/* inloggning ruan/formulär */
+.login-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.login-switch {
+  color: var(--primary);
+  cursor: pointer;
+  text-align: center;
+  margin-top: 8px;
+  font-weight: 700;
+}
+
+.login-actions {
   display: flex;
   justify-content: space-between;
-  gap: 16px;
-  padding: 24px;
-  border-top: 4px solid var(--gold);
-  background: var(--primary);
-  position: sticky;
-  bottom: 0;
-  z-index: 10;
+  align-items: center;
+  margin-top: 16px;
 }
 
-.site-footer p {
-  color: #ffffff;
+.login-close {
+  margin-top: 8px;
+  width: 100%;
 }
+
+/* om oss korten */
 .team-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -337,13 +334,33 @@ main {
   font-size: 0.85rem;
 }
 
-@media (max-width: 860px) {
-  .team-grid {
-    grid-template-columns: 1fr;
-  }
+/* footer delen */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+}
+.skip-link:focus {
+  left: 8px;
+  top: 8px;
 }
 
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px;
+  border-top: 4px solid var(--gold);
+  background: var(--primary);
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+}
 
+.site-footer p {
+  color: #ffffff;
+}
+
+/* responsive / mobil  */
 @media (max-width: 860px) {
   .site-header,
   .site-footer {
@@ -352,6 +369,10 @@ main {
   }
 
   .featured-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .team-grid {
     grid-template-columns: 1fr;
   }
 }
