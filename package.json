@@ -24,6 +24,7 @@
   "homepage": "https://github.com/CopycatPandaExpressChowMein/HKR-DA219B-FullStackDevelopment-Project#readme",
   "dependencies": {
     "@vitejs/plugin-react": "^6.0.1",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "mongoose": "^9.6.1",

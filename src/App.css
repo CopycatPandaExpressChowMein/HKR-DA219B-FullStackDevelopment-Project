@@ -72,15 +72,27 @@ body {
 
 .header-link,
 .menu-button {
-  padding: 10px 16px;
+  padding: 8px;
   border: 2px solid var(--gold);
   border-radius: 999px;
   background: transparent;
-  color: #ffffff;
   cursor: pointer;
-  font-family: Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
 }
-
+.login-icon {
+  width: 46px;
+  height: 46px;
+}
+.header-icon {
+  width: 35px;
+  height: 35px;
+  display: block;
+  object-fit: contain;
+}
 .menu-wrapper {
   position: relative;
 }
@@ -148,6 +160,23 @@ main {
   color: var(--muted);
 }
 
+.login-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.login-switch {
+  color: var(--primary);
+  cursor: pointer;
+  text-align: center;
+  margin-top: 8px;
+  font-weight: 700;
+}
 .section-heading {
   margin-bottom: 24px;
   text-align: center;
@@ -164,6 +193,39 @@ main {
   gap: 22px;
 }
 
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal-card {
+  background: var(--surface);
+  border-top: 4px solid var(--gold);
+  border-radius: var(--radius);
+  padding: 40px;
+  width: min(480px, calc(100% - 32px));
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-close {
+  margin-top: 16px;
+  padding: 10px 24px;
+  border: 2px solid var(--primary);
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--gold);
+  font-weight: 700;
+  cursor: pointer;
+  align-self: flex-end;
+}
 .featured-grid {
   grid-template-columns: repeat(3, 1fr);
 }
@@ -226,7 +288,43 @@ main {
 .site-footer p {
   color: #ffffff;
 }
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-top: 32px;
+}
 
+.team-card {
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--gold);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+}
+
+.team-card:hover {
+  border-top: 3px solid var(--primary);
+}
+
+.team-role {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 860px) {
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
 
 @media (max-width: 860px) {
