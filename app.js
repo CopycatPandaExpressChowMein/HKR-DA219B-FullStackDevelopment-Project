@@ -1,10 +1,17 @@
 import express from 'express'
 import logger from 'morgan'
+import cron from 'node-cron'
 import {ROUTER} from './routes/routes_index.js'
 import {connect} from './config/db.js'
+import {retrieve, addToDB} from './models/police_api_connection.js'
 
 const APP = express()
 const DB = connect()
+
+cron.schedule('*/10 * * * *', async () => {
+    const data = await retrieve()
+    await addToDB(data)
+})
 
 APP.use(logger('dev', {
     immediate: true,

@@ -1,22 +1,30 @@
 import mongoose from "mongoose";
+import uniqueValidator from "mongoose-unique-validator";
 
 const eventSchema = new mongoose.Schema({
     datetime: Date,
+    eventId: {
+        type: Number,
+        unique: true
+    },
     type: String,
     summary: String,
     location: {
-        locationName: String,
+        name: String,
         gps: String
     },
     url: String,
-    comments: {
+    comments: [{
+        author: String,
         body: String,
-        date: Date
-    },
+        date: {type: Date, default: Date.now}
+    }],
     lastUpdate: {type: Date, default: Date.now},
-    archived: Boolean
+    archived: {type: Boolean, default: false}
 })
 
-const event = mongoose.model('event', eventSchema)
+eventSchema.plugin(uniqueValidator)
 
-export {event}
+const Event = mongoose.model('event', eventSchema)
+
+export {Event}
