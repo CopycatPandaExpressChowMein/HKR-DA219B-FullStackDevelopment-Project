@@ -19,7 +19,7 @@ function Current() {
 
   return (
     <div className="page">
-      <h2>Current</h2>
+      <h2>Aktuellt</h2>
       <p>Aktuella polishändelser i Sverige</p>
 
       {loading && <p>Laddar händelser...</p>}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import Status from './components/Status'
 import Current from './components/Current'
@@ -8,45 +8,32 @@ import MinaSidor from './components/MinaSidor'
 import Admin from './components/Admin'
 import Login from './components/Login'
 
-
 // den här får vi ändra till true sen när vi kopplat ihop backend
 // för att kunna se den nu så är den false
 const isAdmin = false
 
 const starterCards = [
   {
-    title: 'About Us',
-    text: 'This is infromation about the creators of the application',
+    title: 'Om oss',
+    text: 'Detta är information om utvecklarna till aplikationen',
     link: '/about-us',
   },
   {
     title: 'Arkiv',
-    text: 'The following is a compilation of emergency and police incidents that took place recently in Sweden.',
+    text: 'Arkiv över polishändelser i Sverige.',
     link: '/arkiv',
   },
   {
-    title: 'Current',
-    text: 'Current events happening in Sweden with police information and locations.',
+    title: 'Aktuellt',
+    text: 'Aktuella händelser i Sverige med polisinformation och platser.',
     link: '/current',
   },
-
 ]
-
-
-
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [events, setEvents] = useState([])
   const [loginOpen, setLoginOpen] = useState(false)
 
-
-  useEffect(() => {
-    fetch('http://localhost:3000/CRUD/events')
-      .then(res => res.json())
-      .then(data => { console.log(data), setEvents(data) })
-      .catch(err => console.log(err))
-  }, [])
   return (
     <BrowserRouter>
       <div className="app-shell">
@@ -57,16 +44,14 @@ function App() {
             <span className="brand-kicker">Sverige</span>
             <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
               <h1>Police Event Tracker</h1>
-
             </Link>
           </div>
-
-
 
           <div className="header-actions">
             <Link to="/mina-sidor">
               <button className="header-link" type="button" onClick={() => setLoginOpen(true)}>
-                <img src="http://localhost:3000/img/login.png" alt="Mina sidor" className="header-icon login-icon" />              </button>
+                <img src="http://localhost:3000/img/person.png" alt="Mina sidor" className="header-icon login-icon" />
+              </button>
             </Link>
 
             {isAdmin && (
@@ -81,7 +66,8 @@ function App() {
                 type="button"
                 onClick={() => setMenuOpen(!menuOpen)}
               >
-                <img src="http://localhost:3000/img/list.png" alt="Menu" className="header-icon" />              </button>
+                <img src="http://localhost:3000/img/list.png" alt="Menu" className="header-icon" />
+              </button>
 
               {menuOpen && (
                 <nav className="dropdown-menu">
@@ -100,11 +86,11 @@ function App() {
             <Route path="/" element={
               <>
                 <section className="hero-section">
-                  <p className="hero-tag"> Police incidents</p>
-                  <h2>Current events in Sweden</h2>
+                  <p className="hero-tag"> Polishändelser</p>
+                  <h2>Aktuella händelser i Sverige</h2>
                   <p className="hero-text">
-                    Here you can follow current police incidents across Sweden,
-                    including crimes, accidents, emergencies, and their locations.
+                    Här kan du följa aktuella polishändelser runt om i Sverige,
+                    inklusive brott, olyckor, nödsituationer och deras platser.
                   </p>
                 </section>
 
@@ -125,14 +111,6 @@ function App() {
                     ))}
                   </div>
                 </section>
-
-                {events.map((event) => (
-                  <article className="event-card feed-card" key={event.eventId}>
-                    <span className="card-number">{event.type}</span>
-                    <h4>{event.summary}</h4>
-                    <p>{event.location?.name} — {new Date(event.datetime).toLocaleDateString()}</p>
-                  </article>
-                ))}
               </>
             } />
             <Route path="/status" element={<Status />} />
@@ -141,7 +119,6 @@ function App() {
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/mina-sidor" element={<MinaSidor />} />
             <Route path="/admin" element={<Admin />} />
-
           </Routes>
         </main>
 

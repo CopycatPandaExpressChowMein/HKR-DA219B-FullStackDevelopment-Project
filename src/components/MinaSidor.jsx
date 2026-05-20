@@ -1,27 +1,51 @@
 function MinaSidor() {
-    return (
-        <div className="page">
-            <h2>Mina sidor</h2>
-            <p>här är din profil och din infor/inställningar</p>
-            <div>
-                <h2> Min infromation</h2>
-                <p> Infromation om mig </p>
-                <p> Telefon: xxx-xxxxxx</p>
-                <p> Adress: xxxxxx gatan</p>
-                <p> Email: exempel@mail.com</p>
+  const user = {
+    name: 'Namn Efternamn',
+    phone: 'xxx-xxxxxx',
+    address: 'Exempelgatan 1',
+    email: 'exempel@mail.com',
+  }
 
-                <h3> Kommentare </h3>
-                <p> kommentarer du har lagt till/bidragit med </p>
+  const comments = []
+  const savedEvents = []
 
-                <h3> Sparade händelser ?</h3>
-                <p> kanske sparade händelser som har hänt kanske?</p>
+  return (
+    <div className="page">
+      <h2>Mina sidor</h2>
+      <p>Din profil och dina inställningar</p>
 
+      <div className="team-grid">
 
-                
-
-            </div>
+        <div className="team-card">
+          <h3>Min information</h3>
+          <span className="team-role">Profil</span>
+          <p>Namn: {user.name}</p>
+          <p>Telefon: {user.phone}</p>
+          <p>Adress: {user.address}</p>
+          <p>Email: {user.email}</p>
         </div>
-    )
+
+        <div className="team-card">
+          <h3>Kommentarer</h3>
+          <span className="team-role">Aktivitet</span>
+          {comments.length === 0
+            ? <p>Inga kommentarer ännu.</p>
+            : comments.map((c, i) => <p key={i}>{c}</p>)
+          }
+        </div>
+
+        <div className="team-card">
+          <h3>Sparade händelser</h3>
+          <span className="team-role">Sparade</span>
+          {savedEvents.length === 0
+            ? <p>Inga sparade händelser ännu.</p>
+            : savedEvents.map((e, i) => <p key={i}>{e}</p>)
+          }
+        </div>
+
+      </div>
+    </div>
+  )
 }
 
 export default MinaSidor
