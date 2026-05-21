@@ -11,10 +11,13 @@ import { ROUTER as LOGIN_ROUTER } from "./routes_login.js";
 const ROUTER = express.Router()
 
 // +----------+ New routes from imports go here +---------+
-ROUTER.use('/', WEBPAGEROUTER)
 ROUTER.use('/login', LOGINROUTER)
 ROUTER.use('/CRUD', CRUDROUTER)
+<<<<<<< HEAD
 ROUTER.use("/auth", LOGIN_ROUTER);
+=======
+ROUTER.use('/', WEBPAGEROUTER)
+>>>>>>> 3137ae02fb077ee26ffb0af61c288ec1252eb268
 // +------------------------------------------------------+
 
 

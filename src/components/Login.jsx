@@ -6,7 +6,7 @@ function Login({ onClose }) {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-card" onClick={(e) => e.stopPropagation()}>
-        
+
         <h3>{isRegister ? 'Registrera dig' : 'Logga in'}</h3>
 
         <input
@@ -28,19 +28,18 @@ function Login({ onClose }) {
             placeholder="Bekräfta lösenord"
           />
         )}
+        <div className="login-actions">
+          <button className="modal-close" onClick={() => setIsRegister(!isRegister)}>
+            {isRegister ? 'Har konto? Logga in' : 'Registrera dig'}
+          </button>
+          <button className="modal-close">
+            {isRegister ? 'Registrera' : 'Logga in'}
+          </button>
+        </div>
 
-        <button className="modal-close">
-          {isRegister ? 'Registrera' : 'Logga in'}
+        <button className="modal-close login-close" onClick={onClose}>
+          Stäng
         </button>
-
-        <p
-          className="login-switch"
-          onClick={() => setIsRegister(!isRegister)}
-        >
-          {isRegister ? 'Logga in' : 'Registrera dig här.'}
-        </p>
-
-        <button className="modal-close" onClick={onClose}>Stäng</button>
       </div>
     </div>
   )

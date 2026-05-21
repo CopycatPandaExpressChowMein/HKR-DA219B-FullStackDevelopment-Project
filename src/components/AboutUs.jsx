@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 const teamMembers = [
   {
     name: 'Amjad Almarhej',
@@ -22,8 +20,6 @@ const teamMembers = [
 ]
 
 function AboutUs() {
-  const [selected, setSelected] = useState(null)
-
   return (
     <div className="page">
       <h2>About Us</h2>
@@ -31,34 +27,14 @@ function AboutUs() {
 
       <div className="team-grid">
         {teamMembers.map((member) => (
-          <div
-            className="team-card"
-            key={member.name}
-            onClick={() => setSelected(member)}
-          >
+          <div className="team-card" key={member.name}>
             <h3>{member.name}</h3>
             <span className="team-role">{member.role}</span>
             <p>{member.info}</p>
-            <a href={`mailto:${member.mail}`}>{member.mail}</a> 
-
-            
+            <a href={`mailto:${member.mail}`}>{member.mail}</a>
           </div>
         ))}
       </div>
-
-      {selected && (
-        <div className="modal-overlay" onClick={() => setSelected(null)}>
-          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
-            <h3>{selected.name}</h3>
-            <span className="team-role">{selected.role}</span>
-            <p>{selected.info}</p>
-            <a href={`mailto:${selected.mail}`}>{selected.mail}</a>
-            <button className="modal-close" onClick={() => setSelected(null)}>
-              Stäng
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   )
 }
