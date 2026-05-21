@@ -24,10 +24,7 @@
   "homepage": "https://github.com/CopycatPandaExpressChowMein/HKR-DA219B-FullStackDevelopment-Project#readme",
   "dependencies": {
     "@vitejs/plugin-react": "^6.0.1",
-<<<<<<< HEAD
     "bcryptjs": "^3.0.3",
-=======
->>>>>>> 7ac524e58394584b8d0fdaeaa072e657a0ca5d73
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
