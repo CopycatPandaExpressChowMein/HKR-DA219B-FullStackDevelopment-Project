@@ -5,23 +5,19 @@ import cors from 'cors'
 import {ROUTER} from './routes/routes_index.js'
 import {connect} from './config/db.js'
 import {retrieve, addToDB} from './models/police_api_connection.js'
-
+import dotenv from "dotenv";
 
 const APP = express()
 const DB = connect()
 
-APP.use(cors({                    
-  origin: 'http://localhost:5173'
-}))
-cron.schedule('*/10 * * * *', async () => {
-    const data = await retrieve()
-    await addToDB(data)
-})
+APP.use(cors())
+APP.use(express.json())
 
 APP.use(logger('dev', {
-    immediate: true,
-    skip: () => process.env.NODE_ENV === 'test'
+  immediate: true,
+  skip: () => process.env.NODE_ENV === 'test'
 }))
+
 APP.use(express.static('public'))
 APP.use('/', ROUTER)
 
@@ -33,3 +29,5 @@ const PORT = process.env.PORT || 3001 //Different port from .env
 APP.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`)
 })
+
+
