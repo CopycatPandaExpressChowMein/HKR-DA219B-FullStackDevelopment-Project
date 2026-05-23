@@ -8,13 +8,17 @@ import {retrieve, addToDB} from './models/police_api_connection.js'
 const APP = express()
 const DB = connect()
 
-APP.use(express.json())
+cron.schedule('*/10 * * * *', async () => {
+    const data = await retrieve()
+    await addToDB(data)
+})
 
 APP.use(logger('dev', {
   immediate: true,
   skip: () => process.env.NODE_ENV === 'test'
 }))
 
+APP.use(express.json())
 APP.use(express.static('public'))
 APP.use('/', ROUTER)
 
