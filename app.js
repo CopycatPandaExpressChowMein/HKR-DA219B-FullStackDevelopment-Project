@@ -23,8 +23,8 @@ APP.use('/', ROUTER)
 //TODO: Add eslint 'https://gitlab.com/mikael-roos/node/-/tree/main/src/express5/hello?ref_type=heads#add-a-linter-with-eslint'
 //TODO: Look into and potentially add error handler 
  
-const PORT = process.env.PORT || 3001 //Different port from .env 
-APP.listen(PORT, () => {
+const PORT = process.env.PORT || 10000 //Different port from .env 
+APP.listen(PORT, '0.0.0.0', () => {
     console.log(`Listening on port ${PORT}`)
 })
 
