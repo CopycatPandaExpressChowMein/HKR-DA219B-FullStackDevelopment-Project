@@ -8,6 +8,10 @@ import MinaSidor from './components/MinaSidor'
 import Admin from './components/Admin'
 import Login from './components/Login'
 
+//Images
+import imgPerson from './img/person.png'
+import imgList from './img/list.png'
+
 // den här får vi ändra till true sen när vi kopplat ihop backend
 // för att kunna se den nu så är den false
 const isAdmin = false
@@ -50,7 +54,7 @@ function App() {
           <div className="header-actions">
             <Link to="/mina-sidor">
               <button className="header-link" type="button" onClick={() => setLoginOpen(true)}>
-                <img src="http://localhost:3000/img/person.png" alt="Mina sidor" className="header-icon login-icon" />
+                <img src={imgPerson} alt="Mina sidor" className="header-icon login-icon" />
               </button>
             </Link>
 
@@ -66,7 +70,7 @@ function App() {
                 type="button"
                 onClick={() => setMenuOpen(!menuOpen)}
               >
-                <img src="http://localhost:3000/img/list.png" alt="Menu" className="header-icon" />
+                <img src={imgList} alt="Menu" className="header-icon" />
               </button>
 
               {menuOpen && (
