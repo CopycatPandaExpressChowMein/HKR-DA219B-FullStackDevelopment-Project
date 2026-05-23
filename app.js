@@ -4,7 +4,6 @@ import cron from 'node-cron'
 import {ROUTER} from './routes/routes_index.js'
 import {connect} from './config/db.js'
 import {retrieve, addToDB} from './models/police_api_connection.js'
-import dotenv from "dotenv";
 
 const APP = express()
 const DB = connect()
