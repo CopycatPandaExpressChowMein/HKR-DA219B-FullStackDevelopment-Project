@@ -6,37 +6,33 @@ import Arkiv from './components/Arkiv'
 import AboutUs from './components/AboutUs'
 import MinaSidor from './components/MinaSidor'
 import Admin from './components/Admin'
+import Login from './components/Login'
 
 // den här får vi ändra till true sen när vi kopplat ihop backend
 // för att kunna se den nu så är den false
-const isAdmin = false  
+const isAdmin = false
 
 const starterCards = [
   {
-    title: 'Händelser',
-    text: 'Visar händelser från polisen.',
+    title: 'Om oss',
+    text: 'Detta är information om utvecklarna till aplikationen',
+    link: '/about-us',
   },
   {
-    title: 'Karta',
-    text: 'Händelser visas på karta.',
+    title: 'Arkiv',
+    text: 'Arkiv över polishändelser i Sverige.',
+    link: '/arkiv',
   },
   {
-    title: 'Kommentarer',
-    text: 'Användare kan kommentera.',
+    title: 'Aktuellt',
+    text: 'Aktuella händelser i Sverige med polisinformation och platser.',
+    link: '/current',
   },
-]
-
-const feedCards = [
-  'Händelse 1',
-  'Händelse 2',
-  'Händelse 3',
-  'Händelse 4',
-  'Händelse 5',
-  'Händelse 6',
 ]
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [loginOpen, setLoginOpen] = useState(false)
 
   return (
     <BrowserRouter>
@@ -51,16 +47,18 @@ function App() {
             </Link>
           </div>
 
-
-
           <div className="header-actions">
             <Link to="/mina-sidor">
-              <button className="header-link" type="button">Mina sidor</button>
+              <button className="header-link" type="button" onClick={() => setLoginOpen(true)}>
+                <img src="http://localhost:3000/img/person.png" alt="Mina sidor" className="header-icon login-icon" />
+              </button>
             </Link>
-            {isAdmin && ( <Link to="/admin">
-            <button className="header-link" type="button">Admin</button>
-            </Link>)}
-          
+
+            {isAdmin && (
+              <Link to="/admin">
+                <button className="header-link" type="button">Admin</button>
+              </Link>
+            )}
 
             <div className="menu-wrapper">
               <button
@@ -68,7 +66,7 @@ function App() {
                 type="button"
                 onClick={() => setMenuOpen(!menuOpen)}
               >
-                Menu
+                <img src="http://localhost:3000/img/list.png" alt="Menu" className="header-icon" />
               </button>
 
               {menuOpen && (
@@ -88,10 +86,11 @@ function App() {
             <Route path="/" element={
               <>
                 <section className="hero-section">
-                  <p className="hero-tag">Polisens händelser</p>
+                  <p className="hero-tag"> Polishändelser</p>
                   <h2>Aktuella händelser i Sverige</h2>
                   <p className="hero-text">
-                    Här visas polisens händelser i realtid.
+                    Här kan du följa aktuella polishändelser runt om i Sverige,
+                    inklusive brott, olyckor, nödsituationer och deras platser.
                   </p>
                 </section>
 
@@ -102,27 +101,13 @@ function App() {
                   </div>
                   <div className="card-grid featured-grid">
                     {starterCards.map((card) => (
-                      <article className="event-card" key={card.title}>
-                        <span className="card-pill">Info</span>
-                        <h4>{card.title}</h4>
-                        <p>{card.text}</p>
-                      </article>
-                    ))}
-                  </div>
-                </section>
-
-                <section className="feed-section">
-                  <div className="section-heading">
-                    <p>Flöde</p>
-                    <h3>Senaste händelser</h3>
-                  </div>
-                  <div className="card-grid feed-grid">
-                    {feedCards.map((item, index) => (
-                      <article className="event-card feed-card" key={item}>
-                        <span className="card-number">0{index + 1}</span>
-                        <h4>{item}</h4>
-                        <p>Datum, plats och typ visas här.</p>
-                      </article>
+                      <Link to={card.link} key={card.title} style={{ textDecoration: 'none' }}>
+                        <article className="event-card">
+                          <span className="card-pill">Info</span>
+                          <h4>{card.title}</h4>
+                          <p>{card.text}</p>
+                        </article>
+                      </Link>
                     ))}
                   </div>
                 </section>
@@ -142,6 +127,7 @@ function App() {
           <p>Kontakt</p>
         </footer>
       </div>
+      {loginOpen && <Login onClose={() => setLoginOpen(false)} />}
     </BrowserRouter>
   )
 }

@@ -9,9 +9,9 @@ import {ROUTER as CRUDROUTER} from './routes_CRUD.js'
 const ROUTER = express.Router()
 
 // +----------+ New routes from imports go here +---------+
-ROUTER.use('/', WEBPAGEROUTER)
 ROUTER.use('/login', LOGINROUTER)
 ROUTER.use('/CRUD', CRUDROUTER)
+ROUTER.use('/', WEBPAGEROUTER)
 // +------------------------------------------------------+
 
 
