@@ -18,7 +18,7 @@ https://github.com/CopycatPandaExpressChowMein/HKR-DA219B-FullStackDevelopment-P
 <p>Open the repository folder in Terminal (Administrator) and run:<br></p>
 
 ```bash
-npm ci --legacy-peer-deps
+npm ci
 ```
 
 # Running the server

@@ -1,7 +1,6 @@
 import express from 'express'
 import logger from 'morgan'
 import cron from 'node-cron'
-import cors from 'cors'
 import {ROUTER} from './routes/routes_index.js'
 import {connect} from './config/db.js'
 import {retrieve, addToDB} from './models/police_api_connection.js'
@@ -10,7 +9,6 @@ import dotenv from "dotenv";
 const APP = express()
 const DB = connect()
 
-APP.use(cors())
 APP.use(express.json())
 
 APP.use(logger('dev', {
