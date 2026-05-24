@@ -34,38 +34,34 @@ function Login({ onClose }) {
     }
 
  const url = isRegister
-  ? 'http://localhost:3000/login/register'
-  : 'http://localhost:3000/login/login'
+  ? '/login/register'
+  : '/login/login'
 
     const body = isRegister
       ? { username, email, password }
       : { email, password }
 
-    const res = await fetch(url, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify(body),
-})
+try {
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  })
 
-const data = await res.json()
+  const data = await res.json()
 
-if (!res.ok) {
-  alert(data.message || 'Något gick fel')
-  return
-}
-
-
-    if (data.token) {
-      localStorage.setItem('token', data.token)
-      alert('Inloggad!')
-      onClose()
-    } else if (data.message === 'Registered') {
-      alert('Registrerad! Logga in nu.')
-      setIsRegister(false)
-    } else {
-      alert(data.message)
-    }
+  if (!res.ok) {
+    alert(data.message || 'Något gick fel')
+    return
   }
+
+  if (data.message === 'Registered') {
+    alert('Registrerad! Logga in nu.')
+    setIsRegister(false)
+  }
+} catch (err) {
+  alert('Server error: ' + err.message)
+}}
 
   return (
     <div className="modal-overlay" onClick={onClose}>
