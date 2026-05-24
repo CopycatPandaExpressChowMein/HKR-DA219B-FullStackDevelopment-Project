@@ -7,7 +7,7 @@ function Current() {
   const [search, setSearch] = useState('')
 
   useEffect(() => {
-    fetch(`http://localhost:${process.env.PORT}/CRUD/events`)
+    fetch(`http://localhost:${window.location.port}/CRUD/events`)
       .then(res => res.json())
       .then(data => {
         setEvents(data)
