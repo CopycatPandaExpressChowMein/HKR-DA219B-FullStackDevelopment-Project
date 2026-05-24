@@ -33,9 +33,11 @@ function Login({ onClose }) {
       return
     }
 
- const url = isRegister
-  ? '/login/register'
-  : '/login/login'
+ const API_URL = "https://police-event-tracker.onrender.com";
+
+const url = isRegister
+  ? `${API_URL}/login/register`
+  : `${API_URL}/login/login`;
 
     const body = isRegister
       ? { username, email, password }

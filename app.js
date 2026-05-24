@@ -4,6 +4,7 @@ import cron from 'node-cron'
 import {ROUTER} from './routes/routes_index.js'
 import {connect} from './config/db.js'
 import {retrieve, addToDB} from './models/police_api_connection.js'
+import cors from 'cors'
 
 const APP = express()
 const DB = connect()
@@ -18,6 +19,7 @@ APP.use(logger('dev', {
   skip: () => process.env.NODE_ENV === 'test'
 }))
 
+APP.use(cors())
 APP.use(express.json())
 APP.use(express.static('public'))
 APP.use('/', ROUTER)
