@@ -27,8 +27,8 @@ function Login({ onClose, onLoginSuccess }) {
     }
 
     const url = isRegister
-      ? 'http://localhost:3000/login/register'
-      : 'http://localhost:3000/login/login'
+      ? `${window.location.origin}/login/register`
+      : `${window.location.origin}/login/login`
 
     const body = isRegister
       ? { username, email, password }
