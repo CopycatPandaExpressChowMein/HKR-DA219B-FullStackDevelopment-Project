@@ -11,7 +11,7 @@ import Login from './components/Login'
 import imgPerson from './img/person.png'
 import imgList from './img/list.png'
 
-const isAdmin = true
+const isAdmin = false
 
 const starterCards = [
   { title: 'Om oss', text: 'Detta är information om utvecklarna till aplikationen', link: '/about-us' },
