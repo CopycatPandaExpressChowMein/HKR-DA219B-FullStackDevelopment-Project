@@ -19,8 +19,8 @@ APP.use(logger('dev', {
   skip: () => process.env.NODE_ENV === 'test'
 }))
 
-APP.use(cors())
 APP.use(express.json())
+APP.use(cors())
 APP.use(express.static('public'))
 APP.use('/', ROUTER)
 
