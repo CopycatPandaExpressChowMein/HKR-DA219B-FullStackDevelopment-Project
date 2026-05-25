@@ -48,4 +48,4 @@ function MinaSidor() {
 	);
 }
 
-export default MinaSidor;
+export default MinaSidor
