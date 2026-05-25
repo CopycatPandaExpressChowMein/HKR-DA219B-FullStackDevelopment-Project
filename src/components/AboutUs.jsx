@@ -2,19 +2,19 @@ const teamMembers = [
   {
     name: 'Amjad Almarhej',
     role: 'Developer',
-    info: 'Information om Amjad kommer här.',
+    info: 'Student at Kristianstad University, second year. Main focus in this project: Scrum Master and assisting with front-end development.',
     mail: 'amjad.almarhej0059@stud.hkr.se',
   },
   {
     name: 'Jesper Nilsson',
     role: 'Developer',
-    info: 'Information om Jesper kommer här.',
+    info: 'Student at Kristianstad University, second year. Main focus in this project: Back-end development.',
     mail: 'Jesper.nilsson0205@stud.hkr.se',
   },
   {
     name: 'Besart Sadiku',
     role: 'Developer',
-    info: 'Information om Besart kommer här.',
+    info: 'Student at Kristianstad University, second year. Main focus in this project: Front-end development.',
     mail: 'besart.sadiku0032@stud.hkr.se',
   },
 ]
