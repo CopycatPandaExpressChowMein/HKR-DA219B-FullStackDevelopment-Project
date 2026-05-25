@@ -14,7 +14,7 @@ import imgList from './img/list.png'
 
 // den här får vi ändra till true sen när vi kopplat ihop backend
 // för att kunna se den nu så är den false
-const isAdmin = false
+const isAdmin = true
 
 const starterCards = [
   {
@@ -52,11 +52,29 @@ function App() {
           </div>
 
           <div className="header-actions">
-            <Link to="/mina-sidor">
-              <button className="header-link" type="button" onClick={() => setLoginOpen(true)}>
-                <img src={imgPerson} alt="Mina sidor" className="header-icon login-icon" />
+            {localStorage.getItem('token') ? (
+              <Link to="/mina-sidor">
+                <button className="header-link" type="button">
+                  <img
+                    src={imgPerson}
+                    alt="Mina sidor"
+                    className="header-icon login-icon"
+                  />
+                </button>
+              </Link>
+            ) : (
+              <button
+                className="header-link"
+                type="button"
+                onClick={() => setLoginOpen(true)}
+              >
+                <img
+                  src={imgPerson}
+                  alt="Logga in"
+                  className="header-icon login-icon"
+                />
               </button>
-            </Link>
+            )}
 
             {isAdmin && (
               <Link to="/admin">

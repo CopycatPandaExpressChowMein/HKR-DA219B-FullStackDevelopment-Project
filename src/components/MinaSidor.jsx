@@ -1,13 +1,34 @@
-function MinaSidor() {
-  const user = {
-    name: 'Namn Efternamn',
-    phone: 'xxx-xxxxxx',
-    address: 'Exempelgatan 1',
-    email: 'exempel@mail.com',
-  }
+import { useNavigate } from 'react-router-dom'
 
+function getCurrentUser() {
+  const token = localStorage.getItem('token')
+  if (!token) return null
+  try {
+    return JSON.parse(atob(token.split('.')[1]))
+  } catch {
+    return null
+  }
+}
+
+function MinaSidor() {
+  const user = getCurrentUser()
+  const navigate = useNavigate()
   const comments = []
   const savedEvents = []
+
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    navigate('/')
+  }
+
+  if (!user) {
+    return (
+      <div className="page">
+        <h2>Mina sidor</h2>
+        <p>Du är inte inloggad. Logga in för att se din profil.</p>
+      </div>
+    )
+  }
 
   return (
     <div className="page">
@@ -19,10 +40,16 @@ function MinaSidor() {
         <div className="team-card">
           <h3>Min information</h3>
           <span className="team-role">Profil</span>
-          <p>Namn: {user.name}</p>
-          <p>Telefon: {user.phone}</p>
-          <p>Adress: {user.address}</p>
+          <p>Användarnamn: {user.username}</p>
           <p>Email: {user.email}</p>
+          <p>Roll: {user.role || 'användare'}</p>
+          <button
+            className="modal-close"
+            onClick={handleLogout}
+            style={{ marginTop: '16px', alignSelf: 'flex-start' }}
+          >
+            Logga ut
+          </button>
         </div>
 
         <div className="team-card">

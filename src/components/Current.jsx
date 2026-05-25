@@ -1,5 +1,113 @@
 import { useState, useEffect } from 'react'
 
+function getSessionId() {
+  let id = localStorage.getItem('sessionId')
+  if (!id) {
+    id = Math.random().toString(36).slice(2)
+    localStorage.setItem('sessionId', id)
+  }
+  return id
+}
+
+function getCurrentUser() {
+  const token = localStorage.getItem('token')
+  if (!token) return null
+  try {
+    return JSON.parse(atob(token.split('.')[1]))
+  } catch {
+    return null
+  }
+}
+
+function CommentSection({ eventId }) {
+  const [comments, setComments] = useState([])
+  const [text, setText] = useState('')
+  const [loading, setLoading] = useState(true)
+  const sessionId = getSessionId()
+  const user = getCurrentUser()
+  const authorName = user?.username || 'Anonym'
+
+  useEffect(() => {
+    fetch(`/CRUD/comments/${eventId}`)
+      .then(res => res.json())
+      .then(data => { setComments(data); setLoading(false) })
+      .catch(() => setLoading(false))
+  }, [eventId])
+
+  const postComment = async () => {
+    if (!text.trim()) return
+    const res = await fetch(`/CRUD/comments`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ eventId, text, author: authorName, sessionId }),
+    })
+    const newComment = await res.json()
+    setComments(prev => [...prev, newComment])
+    setText('')
+  }
+
+  const deleteComment = async (commentId, commentSessionId) => {
+    if (commentSessionId !== sessionId) return
+    await fetch(`/CRUD/comments/${commentId}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId }),
+    })
+    setComments(prev => prev.filter(c => c._id !== commentId))
+  }
+
+  const isOwn = (c) => c.sessionId === sessionId
+
+  return (
+    <div className="comment-section">
+      <h4>Kommentarer ({comments.length})</h4>
+
+      {loading && <p>Laddar kommentarer...</p>}
+      {!loading && comments.length === 0 && (
+        <p className="comment-empty">Inga kommentarer</p>
+      )}
+
+      {comments.map(c => (
+        <div key={c._id} className={`comment-item${isOwn(c) ? ' own' : ''}`}>
+          <div className="comment-meta">
+            <span className="comment-author">
+              {c.author}
+              {isOwn(c) && <span className="comment-author-label">(du)</span>}
+            </span>
+            <span className="comment-time">
+              {new Date(c.createdAt).toLocaleString('sv-SE')}
+            </span>
+          </div>
+          <p className="comment-text">{c.text}</p>
+          {isOwn(c) && (
+            <button
+              className="comment-delete-btn"
+              onClick={() => deleteComment(c._id, c.sessionId)}
+            >
+              Ta bort
+            </button>
+          )}
+        </div>
+      ))}
+
+      <div className="comment-input-row">
+        <input
+          className="login-input"
+          type="text"
+          placeholder="Skriv en kommentar."
+          value={text}
+          onChange={e => setText(e.target.value)}
+          onKeyDown={e => { if (e.key === 'Enter') postComment() }}
+          style={{ margin: 0 }}
+        />
+        <button className="comment-submit-btn" onClick={postComment}>
+          Skicka
+        </button>
+      </div>
+    </div>
+  )
+}
+
 function Current() {
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
@@ -7,16 +115,10 @@ function Current() {
   const [search, setSearch] = useState('')
 
   useEffect(() => {
-    fetch(`${window.location.origin}/CRUD/events`)
+    fetch(`/CRUD/events`)
       .then(res => res.json())
-      .then(data => {
-        setEvents(data)
-        setLoading(false)
-      })
-      .catch(err => {
-        console.log(err)
-        setLoading(false)
-      })
+      .then(data => { setEvents(data); setLoading(false) })
+      .catch(err => { console.log(err); setLoading(false) })
   }, [])
 
   const filtered = events.filter(event =>
@@ -40,7 +142,6 @@ function Current() {
       />
 
       {loading && <p>Laddar händelser</p>}
-
       {!loading && filtered.length === 0 && <p>Inga händelser hittades.</p>}
 
       <div className="card-grid feed-grid">
@@ -70,13 +171,15 @@ function Current() {
               <iframe
                 title="karta"
                 width="100%"
-                height="500"
+                height="300"
                 style={{ border: 0, borderRadius: '10px', marginTop: '15px' }}
                 src={`https://maps.google.com/maps?q=${selected.location.gps}&z=13&output=embed`}
               />
             )}
 
-            <button className="modal-close" onClick={() => setSelected(null)} style={{ marginTop: '15px' }}>
+            <CommentSection eventId={selected.eventId} />
+
+            <button className="modal-close" onClick={() => setSelected(null)} style={{ marginTop: '20px' }}>
               Stäng
             </button>
           </div>

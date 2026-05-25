@@ -1,4 +1,3 @@
-// vite.config.js
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
@@ -8,6 +7,11 @@ export default defineConfig({
   publicDir: false,
   build: {
     outDir: "./public"
-
+  },
+  server: {
+    proxy: {
+      '/CRUD': 'http://localhost:3000',
+      '/login': 'http://localhost:3000',
+    }
   }
 })

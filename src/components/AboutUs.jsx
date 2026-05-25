@@ -1,20 +1,20 @@
 const teamMembers = [
   {
     name: 'Amjad Almarhej',
-    role: 'Developer',
-    info: 'Student at Kristianstad University, second year. Main focus in this project: Scrum Master and assisting with front-end development.',
+    role: 'Utvecklare',
+    info: 'Student vid Högskolan Kristianstad, andra året. Huvudfokus i detta projekt: Dev-ops /frontend utveckling.',
     mail: 'amjad.almarhej0059@stud.hkr.se',
   },
   {
     name: 'Jesper Nilsson',
-    role: 'Developer',
-    info: 'Student at Kristianstad University, second year. Main focus in this project: Back-end development.',
+    role: 'Utvecklare',
+    info: 'Student vid Högskolan Kristianstad, andra året. Huvudfokus i detta projekt: Dev-ops /Backend utveckling.',
     mail: 'Jesper.nilsson0205@stud.hkr.se',
   },
   {
     name: 'Besart Sadiku',
-    role: 'Developer',
-    info: 'Student at Kristianstad University, second year. Main focus in this project: Front-end development.',
+    role: 'Utvecklare',
+    info: 'Student vid Högskolan Kristianstad, andra året. Huvudfokus i detta projekt: Frontend utveckling.',
     mail: 'besart.sadiku0032@stud.hkr.se',
   },
 ]
@@ -22,7 +22,8 @@ const teamMembers = [
 function AboutUs() {
   return (
     <div className="page">
-      <h2>About Us</h2>
+      
+      <h2>Om oss - Grupp 4</h2>
       <p>Här är information om teamet bakom Police Event Tracker.</p>
 
       <div className="team-grid">
