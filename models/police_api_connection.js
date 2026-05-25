@@ -58,7 +58,7 @@ async function addToDB(data){
 }
 
 async function checkAndArchive(){
-        const events = await Event.find()
+        const events = await Event.find({archived: false})
         const currentTime = Date.now()
         const dayInMs = 1000*60*60*24
         
