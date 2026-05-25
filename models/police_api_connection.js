@@ -57,5 +57,29 @@ async function addToDB(data){
     }
 }
 
+async function checkAndArchive(){
+        const events = await Event.find({archived: false})
+        const currentTime = Date.now()
+        const dayInMs = 1000*60*60*24
+        
+        //Variable to adjust how long to wait before archiving
+        const archivalLimit = 7
 
-export {retrieve, addToDB}
+        for(const event of events){
+            const timePast = currentTime - event.lastUpdate.getTime()
+            const daysPast = timePast/dayInMs
+            if(daysPast >= archivalLimit){
+                try {
+                    console.log('Entry too old, archiving...')
+                    event.archived = true
+                    event.save()
+                } catch (err) {
+                    console.log('Archival failed: ' + err.message)
+                }
+                
+            }
+        }
+}
+
+
+export {retrieve, addToDB, checkAndArchive}
