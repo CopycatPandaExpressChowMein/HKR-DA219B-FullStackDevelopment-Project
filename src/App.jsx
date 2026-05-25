@@ -74,10 +74,9 @@ function AppContent() {
 
             {menuOpen && (
               <nav className="dropdown-menu">
-                <Link to="/status" onClick={() => setMenuOpen(false)}>Status</Link>
-                <Link to="/current" onClick={() => setMenuOpen(false)}>Current</Link>
+                <Link to="/current" onClick={() => setMenuOpen(false)}>Aktuellt</Link>
                 <Link to="/arkiv" onClick={() => setMenuOpen(false)}>Arkiv</Link>
-                <Link to="/about-us" onClick={() => setMenuOpen(false)}>About Us</Link>
+                <Link to="/about-us" onClick={() => setMenuOpen(false)}>Om oss</Link>
               </nav>
             )}
           </div>
