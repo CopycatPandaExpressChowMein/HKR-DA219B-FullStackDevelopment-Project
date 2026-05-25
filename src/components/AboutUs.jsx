@@ -26,18 +26,18 @@ function AboutUs() {
       <h2>Om oss - Grupp 4</h2>
       <p>Här är information om teamet bakom Police Event Tracker.</p>
 
-      <div className="team-grid">
-        {teamMembers.map((member) => (
-          <div className="team-card" key={member.name}>
-            <h3>{member.name}</h3>
-            <span className="team-role">{member.role}</span>
-            <p>{member.info}</p>
-            <a href={`mailto:${member.mail}`}>{member.mail}</a>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
+			<div className="team-grid">
+				{teamMembers.map((member) => (
+					<div className="team-card" key={member.name}>
+						<h3>{member.name}</h3>
+						<span className="team-role">{member.role}</span>
+						<p>{member.info}</p>
+						<a href={`mailto:${member.mail}`}>{member.mail}</a>
+					</div>
+				))}
+			</div>
+		</div>
+	);
 }
 
-export default AboutUs
+export default AboutUs;
