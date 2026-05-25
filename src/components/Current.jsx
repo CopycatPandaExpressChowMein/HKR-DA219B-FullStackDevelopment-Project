@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import InfiniteScroll from "react-infinite-scroll-component";
 
 function getSessionId() {
   let id = localStorage.getItem('sessionId')
