@@ -1,43 +1,46 @@
 {
-  "name": "hkr-da219b-fullstackdevelopment-project",
-  "version": "1.0.0",
-  "description": "Repository for the group project in the Full Stack Development (DA219B) course at HKR.",
-  "main": "index.js",
-  "scripts": {
-    "vite_dev": "vite --config ./config/vite.config.js",
-    "vite_build": "vite build --config ./config/vite.config.js",
-    "vite_preview": "vite preview --config ./config/vite.config.js",
-    "node_start": "node --env-file=.env ./app.js",
-    "node_dev": "npx nodemon --env-file=.env ./app.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/CopycatPandaExpressChowMein/HKR-DA219B-FullStackDevelopment-Project.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
-  "bugs": {
-    "url": "https://github.com/CopycatPandaExpressChowMein/HKR-DA219B-FullStackDevelopment-Project/issues"
-  },
-  "homepage": "https://github.com/CopycatPandaExpressChowMein/HKR-DA219B-FullStackDevelopment-Project#readme",
-  "dependencies": {
-    "@vitejs/plugin-react": "^6.0.1",
-    "bcryptjs": "^3.0.3",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.6.1",
-    "mongoose-unique-validator": "^6.1.1",
-    "morgan": "^1.10.1",
-    "node-cron": "^4.2.1",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5",
-    "react-router-dom": "^7.15.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.14",
-    "vite": "^8.0.12"
-  }
+	"name": "hkr-da219b-fullstackdevelopment-project",
+	"version": "1.0.0",
+	"description": "Repository for the group project in the Full Stack Development (DA219B) course at HKR.",
+	"main": "index.js",
+	"scripts": {
+		"vite_dev": "vite --config ./config/vite.config.js",
+		"vite_build": "vite build --config ./config/vite.config.js",
+		"vite_preview": "vite preview --config ./config/vite.config.js",
+		"node_start": "node --env-file=.env ./app.js",
+		"node_dev": "npx nodemon --env-file=.env ./app.js",
+		"node_lint": "npx @biomejs/biome check --write"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CopycatPandaExpressChowMein/HKR-DA219B-FullStackDevelopment-Project.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "module",
+	"bugs": {
+		"url": "https://github.com/CopycatPandaExpressChowMein/HKR-DA219B-FullStackDevelopment-Project/issues"
+	},
+	"homepage": "https://github.com/CopycatPandaExpressChowMein/HKR-DA219B-FullStackDevelopment-Project#readme",
+	"dependencies": {
+		"@vitejs/plugin-react": "^6.0.1",
+		"bcryptjs": "^3.0.3",
+		"dotenv": "^17.4.2",
+		"express": "^5.2.1",
+		"jsonwebtoken": "^9.0.3",
+		"mongoose": "^9.6.1",
+		"mongoose-unique-validator": "^6.1.1",
+		"morgan": "^1.10.1",
+		"node-cron": "^4.2.1",
+		"react": "^19.2.5",
+		"react-dom": "^19.2.5",
+		"react-infinite-scroll-component": "^7.2.0",
+		"react-router-dom": "^7.15.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.4.15",
+		"nodemon": "^3.1.14",
+		"vite": "^8.0.12"
+	}
 }
