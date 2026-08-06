@@ -2,9 +2,58 @@ import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 function Current() {
+	//Alla regioner i sverige, ska fyllas i med kommun med
+	const locationMasterKey = [
+		["Blekinge", ["Test1", "Test2"]],
+		["Dalarna", ["Test3", "Test4", "Test5"]],
+		["Gotland", []],
+		["Gävleborg", []],
+		["Halland", []],
+		["Jämtland", []],
+		["Jönköping", []],
+		["Kalmar", []],
+		["kronoberg", []],
+		["Norrbotten", []],
+		["Skåne", []],
+		["Stockholm", []],
+		["Södermanland", []],
+		["Uppsala", []],
+		["Värmland", []],
+		["Västerbotten", []],
+		["Västernorrland", []],
+		["Västmanland", []],
+		["Västra Götaland", []],
+		["Örebro", []],
+		["Östergötland", []]
+	]
+
+	const eventTypeMasterKey = [] //Kanske testa att hämta all event typer som finns från databasen istället?
+
+
 	const [events, setEvents] = useState([]);
 	const [hasMore, setHasMore] = useState(true);
 	const [selected, setSelected] = useState(null);
+
+	const [locationDropDownOpen, setLocationDropDownOpen] = useState(false)
+	const [selectedRegionDropDown, setSelectedRegionDropDown] = useState(null)
+	const [selectedCommunities, setSelectedCommunities] = useState({})
+
+	const [eventTypeDropDownOpen, setEventTypeDropDownOpen] = useState(false)
+	const [selectedTypes, setSelectedTypes] = useState({})
+	
+	const handleLocationChange = (e) => {
+		const target = e.target
+		const value = target.checked
+		const name = target.name
+		setSelectedCommunities(values => ({...values, [name]: value}))
+	}
+
+	const handleTypeChange = (e) => {
+		const target = e.target
+		const value = target.checked
+		const name = target.name
+		setSelectedTypes(values => ({...values, [name]: value}))
+	}
 
 	const fetchMore = async () => {
 		const res = await fetch(
@@ -22,6 +71,66 @@ function Current() {
 		<div className="page">
 			<h2>Aktuellt</h2>
 			<p>Aktuella polishändelser i Sverige</p>
+			
+			<div className="dropDown-Wrapper">
+				<button 
+					className="dropDown-Button" 
+					type="button" 
+					onClick={() => setLocationDropDownOpen(!locationDropDownOpen)}
+				>
+					Plats
+				</button>
+
+				{locationDropDownOpen && (
+					<div className="dropDown-Content">
+						<div className="dropDown-Regions">
+							{locationMasterKey.map((region) => (
+							<button 
+								className="dropDown-Item"
+								type="button"
+								onClick={() => setSelectedRegionDropDown(region)}
+							>
+								{region[0]}
+							</button>
+						))}
+						</div>
+
+						<div className="dropDown-Communities">
+							{selectedRegionDropDown && (
+								<div>
+									{selectedRegionDropDown[1].map((community) => (
+										<label className="dropDown-Item">{community}
+											<input
+												type="checkbox"
+												name={community}
+												checked={selectedCommunities.community}
+												onChange={handleLocationChange}
+											/>
+										</label>
+									))}
+								</div>
+							)}
+						</div>						
+					</div>
+				)}
+				
+			</div>
+
+			<div className="dropDown-Wrapper">
+				<button 
+					className="dropDown-Button" 
+					type="button" 
+					onClick={() => setEventTypeDropDownOpen(!eventTypeDropDownOpen)}
+				>
+					Typ
+				</button>
+
+				{eventTypeDropDownOpen && (
+					<div className="dropDown-Content">
+
+					</div>
+				)}
+			</div>
 
 			<InfiniteScroll
 				className="card-grid feed-grid"
