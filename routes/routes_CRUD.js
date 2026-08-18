@@ -8,8 +8,22 @@ const ROUTER = express.Router();
 ROUTER.get("/current_events", async (req, res) => {
 	const limit = 12;
 	const offset = req.query.offset;
+	const location_filter = req.query.location_filter.split(',');
+	const type_filter = req.query.type_filter.split(',');
 
-	const events = await Event.find({ archived: false })
+
+	let query = {archived: false}
+	if(location_filter[0] !== '') {
+		query.location = {name: {$in: location_filter}}
+		query = {archived: false, "location.name": {$in: location_filter.map(location => new RegExp(location))}}
+	}
+	if(type_filter[0] !== ''){
+		query.type = {$in: type_filter}
+	}	
+
+	console.log(query)
+
+	const events = await Event.find(query)
 		.sort({ datetime: -1 })
 		.skip(offset)
 		.limit(limit);
@@ -27,6 +41,11 @@ ROUTER.get("/archived_events", async (req, res) => {
 	console.log(events);
 	res.json(events);
 });
+
+ROUTER.get("/types_events", async (req, res) => {
+	const event_types = await Event.find({archived: false}, {_id: 0, type: 1})
+	res.json(event_types)
+})
 
 // +------------------------------------------------------+
 

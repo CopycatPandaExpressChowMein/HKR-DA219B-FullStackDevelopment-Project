@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 function Current() {
@@ -36,16 +36,19 @@ function Current() {
 
 	const [locationDropDownOpen, setLocationDropDownOpen] = useState(false)
 	const [selectedRegionDropDown, setSelectedRegionDropDown] = useState(null)
-	const [selectedCommunities, setSelectedCommunities] = useState({})
+	const [selectedRegion, setSelectedRegion] = useState({})
 
 	const [eventTypeDropDownOpen, setEventTypeDropDownOpen] = useState(false)
+	const [types, setTypes] = useState({})
 	const [selectedTypes, setSelectedTypes] = useState({})
 	
 	const handleLocationChange = (e) => {
 		const target = e.target
 		const value = target.checked
 		const name = target.name
-		setSelectedCommunities(values => ({...values, [name]: value}))
+		setSelectedRegion(values => ({...values, [name]: value}))
+		setHasMore(true)
+		setEvents([])
 	}
 
 	const handleTypeChange = (e) => {
@@ -53,19 +56,43 @@ function Current() {
 		const value = target.checked
 		const name = target.name
 		setSelectedTypes(values => ({...values, [name]: value}))
+		setHasMore(true)
+		setEvents([])
 	}
 
 	const fetchMore = async () => {
+
+		const location_filter = Array.from(Object.keys(Object.fromEntries(Object.entries(selectedRegion).filter(([, val]) => val === true))))
+		const type_filter = Array.from(Object.keys(Object.fromEntries(Object.entries(selectedTypes).filter(([, val]) => val === true))))
+
+		const params = new URLSearchParams()
+		params.append('offset', events.length)
+		params.append('location_filter', location_filter)
+		params.append('type_filter', type_filter)
 		const res = await fetch(
-			`${window.location.origin}/CRUD/current_events?offset=${events.length}`,
+			`${window.location.origin}/CRUD/current_events?${params}`
 		);
 		const next = await res.json();
 		if (next.length === 0) {
 			setHasMore(false);
 			return;
 		}
+		else if(next.length < 12){
+			setHasMore(false)
+		}
 		setEvents((prev) => [...prev, ...next]);
 	};
+	//Fetches all types of events currently in the database on components initial load
+	useEffect(() => {
+		const fetchEventTypes = (async () => {
+			const res = await fetch(
+				`${window.location.origin}/CRUD/types_events`
+			)
+			const data = await res.json()
+			const filteredData = [...new Set(data.map(event => event.type).sort())]
+			setTypes(filteredData)
+		})()
+	}, {})
 
 	return (
 		<div className="page">
@@ -83,34 +110,16 @@ function Current() {
 
 				{locationDropDownOpen && (
 					<div className="dropDown-Content">
-						<div className="dropDown-Regions">
 							{locationMasterKey.map((region) => (
-							<button 
-								className="dropDown-Item"
-								type="button"
-								onClick={() => setSelectedRegionDropDown(region)}
-							>
-								{region[0]}
-							</button>
-						))}
-						</div>
-
-						<div className="dropDown-Communities">
-							{selectedRegionDropDown && (
-								<div>
-									{selectedRegionDropDown[1].map((community) => (
-										<label className="dropDown-Item">{community}
-											<input
-												type="checkbox"
-												name={community}
-												checked={selectedCommunities.community}
-												onChange={handleLocationChange}
-											/>
-										</label>
-									))}
-								</div>
-							)}
-						</div>						
+							<label className="dropDown-Item">{region[0]}
+								<input
+									type="checkbox"
+									name={region[0]}
+									checked={selectedRegion.region}
+									onChange={handleLocationChange}
+								/>
+							</label>
+						))}				
 					</div>
 				)}
 				
@@ -127,7 +136,16 @@ function Current() {
 
 				{eventTypeDropDownOpen && (
 					<div className="dropDown-Content">
-
+						{types.map((type) => (
+							<label className="dropDown-Item">{type}
+								<input
+									type="checkbox"
+									name={type}
+									checked={selectedTypes.type}
+									onChange={handleTypeChange}
+								/>
+							</label>
+						))}
 					</div>
 				)}
 			</div>
