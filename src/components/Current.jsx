@@ -29,6 +29,7 @@ function Current() {
 
 	const eventTypeMasterKey = [] //Kanske testa att hämta all event typer som finns från databasen istället?
 
+	const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('user') !== null)
 
 	const [events, setEvents] = useState([]);
 	const [hasMore, setHasMore] = useState(true);
@@ -41,6 +42,8 @@ function Current() {
 	const [eventTypeDropDownOpen, setEventTypeDropDownOpen] = useState(false)
 	const [types, setTypes] = useState({})
 	const [selectedTypes, setSelectedTypes] = useState({})
+
+	const [newCommentContent, setNewCommentContent] = useState('')
 	
 	const handleLocationChange = (e) => {
 		const target = e.target
@@ -58,6 +61,43 @@ function Current() {
 		setSelectedTypes(values => ({...values, [name]: value}))
 		setHasMore(true)
 		setEvents([])
+	}
+
+	const handleCommentSend = async (e) => {
+		const userInfo = JSON.parse(localStorage.getItem('user'))
+		const userToken = localStorage.getItem('token')
+
+		const newComment = {
+			author: userInfo.name,
+			commentBody: newCommentContent,
+			eventId: selected._id
+		}
+
+		const url = `${window.location.origin}/CRUD/create_comment`
+
+		try {
+			const res = await fetch(url, {
+				method: 'POST',
+				headers: {
+					'Authorization': `Bearer ${userToken}`,
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(newComment)
+			})
+
+			if (!res.ok) {
+        		alert(data.message || 'Något gick fel')
+        		return
+			}
+			else{
+				alert('Kommentar skickad')
+			}
+		} catch (err) {
+			alert('Server error: ' + err.message)
+		}
+
+		//resets comment input field
+		setNewCommentContent('...')
 	}
 
 	const fetchMore = async () => {
@@ -86,7 +126,7 @@ function Current() {
 	useEffect(() => {
 		const fetchEventTypes = (async () => {
 			const res = await fetch(
-				`${window.location.origin}/CRUD/types_events`
+				`${window.location.origin}/CRUD/types_events_current`
 			)
 			const data = await res.json()
 			const filteredData = [...new Set(data.map(event => event.type).sort())]
@@ -198,6 +238,41 @@ function Current() {
 								src={`https://maps.google.com/maps?q=${selected.location.gps}&z=13&output=embed`}
 							/>
 						)}
+
+						<div className="commentWrapper">
+							<div className="commentContainer">
+								{selected.comments.map((comment) => (
+									<div className="comment">
+										<h4 className="commentAuthor">{comment.author}</h4>
+										<p className="commentBody">{comment.body}</p>
+										<p className="commentDate">{comment.date}</p>
+									</div>
+								))}
+							</div>							
+
+							<div className="commentInput">
+								<input
+									type="text"
+									id="newCommentContent"
+									name="newCommentContent"
+									placeholder="..."
+									value={newCommentContent}
+									onChange={
+										(e) => {
+											setNewCommentContent(e.target.value)
+										}}
+								/>
+								<button
+									className="sendCommentBtn"
+									type="button"
+									onClick={handleCommentSend}
+									disabled={isLoggedIn}
+								>
+									Skicka
+								</button>
+							</div>
+							
+						</div>
 
 						<button
 							className="modal-close"

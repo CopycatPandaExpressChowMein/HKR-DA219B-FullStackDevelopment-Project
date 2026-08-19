@@ -1,5 +1,6 @@
 import express from "express";
 import { Event } from "../models/event_schema.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const ROUTER = express.Router();
 
@@ -21,8 +22,6 @@ ROUTER.get("/current_events", async (req, res) => {
 		query.type = {$in: type_filter}
 	}	
 
-	console.log(query)
-
 	const events = await Event.find(query)
 		.sort({ datetime: -1 })
 		.skip(offset)
@@ -42,9 +41,41 @@ ROUTER.get("/archived_events", async (req, res) => {
 	res.json(events);
 });
 
-ROUTER.get("/types_events", async (req, res) => {
+ROUTER.get("/types_events_current", async (req, res) => {
 	const event_types = await Event.find({archived: false}, {_id: 0, type: 1})
 	res.json(event_types)
+})
+
+ROUTER.get("/types_events_archived", async (req, res) => {
+	const event_types = await Event.find({archived: true}, {_id: 0, type: 1})
+	res.json(event_types)
+})
+
+ROUTER.post("/create_comment", authMiddleware,async (req, res) => {
+	const {author, commentBody, eventId} = req.body
+
+	try {
+		if(!author || !commentBody || !eventId){
+			return res.status(400).json({message: 'Information saknas för kommentar'})
+		}
+
+		const event = await Event.findOne({_id: eventId})
+
+		if(!event){
+			return res.status(400).json({message: 'Event hittades inte'})
+		}
+
+		const updateEvent = {
+			$push: {comments: {author: author, body: commentBody}}
+		}
+
+		const result = await Event.updateOne({_id: eventId}, updateEvent)
+
+		res.status(201).json({message: 'Comment added succesfully', result: result})
+
+	} catch (err) {
+		res.status(500).json({ message: err.message });
+	}
 })
 
 // +------------------------------------------------------+
