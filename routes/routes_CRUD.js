@@ -41,8 +41,13 @@ ROUTER.get("/archived_events", async (req, res) => {
 	res.json(events);
 });
 
-ROUTER.get("/types_events", async (req, res) => {
+ROUTER.get("/types_events_current", async (req, res) => {
 	const event_types = await Event.find({archived: false}, {_id: 0, type: 1})
+	res.json(event_types)
+})
+
+ROUTER.get("/types_events_archived", async (req, res) => {
+	const event_types = await Event.find({archived: true}, {_id: 0, type: 1})
 	res.json(event_types)
 })
 

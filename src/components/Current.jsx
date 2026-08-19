@@ -126,7 +126,7 @@ function Current() {
 	useEffect(() => {
 		const fetchEventTypes = (async () => {
 			const res = await fetch(
-				`${window.location.origin}/CRUD/types_events`
+				`${window.location.origin}/CRUD/types_events_current`
 			)
 			const data = await res.json()
 			const filteredData = [...new Set(data.map(event => event.type).sort())]
@@ -183,7 +183,6 @@ function Current() {
 									name={type}
 									checked={selectedTypes.type}
 									onChange={handleTypeChange}
-									disabled={isLoggedIn}
 								/>
 							</label>
 						))}
@@ -267,6 +266,7 @@ function Current() {
 									className="sendCommentBtn"
 									type="button"
 									onClick={handleCommentSend}
+									disabled={isLoggedIn}
 								>
 									Skicka
 								</button>
