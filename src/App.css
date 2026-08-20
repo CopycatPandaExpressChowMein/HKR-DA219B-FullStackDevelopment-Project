@@ -135,6 +135,60 @@ body {
   color: var(--primary);
 }
 
+.dropdown-menu-button {
+	padding: 10px 20px;
+	border: 2px solid var(--primary);
+	border-radius: 999px;
+	background: transparent;
+	color: var(--primary);
+	font-weight: 700;
+	font-size: 0.9rem;
+	cursor: pointer;
+}
+
+.dropdown-menu-button:hover { background: var(--accent); }
+
+.dropdown-menu-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 8px 10px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.dropdown-menu-item:hover { background: var(--accent); }
+.filter-dropdown-menu {
+	position: absolute;
+	left: 0;
+	top: calc(100% + 10px);
+	width: max-content;
+	max-width: calc(100vw - 48px);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	padding: 10px;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: 18px;
+	box-shadow: var(--shadow);
+	z-index: 15;
+}
+
+.filter-dropdown-item {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 12px;
+	border-radius: 999px;
+	background: var(--bg);
+	border: 1px solid var(--line);
+	cursor: pointer;
+	white-space: nowrap;
+	font-size: 0.88rem;
+}
+
+.filter-dropdown-item:hover { background: var(--accent); }
 /* layout */
 main {
 	width: min(1120px, calc(100% - 32px));
@@ -562,15 +616,38 @@ main {
 	.site-header,
 	.site-footer {
 		flex-direction: column;
-		align-items: flex-start;
+		align-items: stretch; 
 	}
 
-  .featured-grid { grid-template-columns: 1fr; }
-  .team-grid { grid-template-columns: 1fr; }
+	.header-actions {
+		justify-content: flex-end;
+		width: 100%;
+	}
 
-  .admin-row { flex-direction: column; }
-  .admin-delete-btn { align-self: flex-start; }
+	.dropdown-menu {
+		max-width: calc(100vw - 48px);
+	}
 
-  .comment-input-row { flex-direction: column; }
-  .comment-submit-btn { width: 100%; }
+	.filter-dropdown-menu {
+		left: auto;
+		right: 0;
+		max-width: calc(100vw - 48px);
+	}
+
+	.admin-tabs {
+		flex-wrap: wrap;
+	}
+
+	.featured-grid { grid-template-columns: 1fr; }
+	.team-grid { grid-template-columns: 1fr; }
+
+	.admin-row { flex-direction: column; }
+	.admin-delete-btn { align-self: flex-start; }
+
+	.comment-input-row { flex-direction: column; }
+	.comment-submit-btn { width: 100%; }
+}
+
+html, body {
+	overflow-x: hidden;
 }

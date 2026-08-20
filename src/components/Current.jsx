@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 function getSessionId() {
@@ -148,11 +148,9 @@ function Current() {
 	const [selectedRegion, setSelectedRegion] = useState({})
 
 	const [eventTypeDropDownOpen, setEventTypeDropDownOpen] = useState(false)
-	const [types, setTypes] = useState({})
+	const [types, setTypes] = useState([])
 	const [selectedTypes, setSelectedTypes] = useState({})
 
-	const [newCommentContent, setNewCommentContent] = useState('')
-	
 	const handleLocationChange = (e) => {
 		const target = e.target
 		const value = target.checked
@@ -169,43 +167,6 @@ function Current() {
 		setSelectedTypes(values => ({...values, [name]: value}))
 		setHasMore(true)
 		setEvents([])
-	}
-
-	const handleCommentSend = async (e) => {
-		const userInfo = JSON.parse(localStorage.getItem('user'))
-		const userToken = localStorage.getItem('token')
-
-		const newComment = {
-			author: userInfo.name,
-			commentBody: newCommentContent,
-			eventId: selected._id
-		}
-
-		const url = `${window.location.origin}/CRUD/create_comment`
-
-		try {
-			const res = await fetch(url, {
-				method: 'POST',
-				headers: {
-					'Authorization': `Bearer ${userToken}`,
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(newComment)
-			})
-
-			if (!res.ok) {
-        		alert(data.message || 'Något gick fel')
-        		return
-			}
-			else{
-				alert('Kommentar skickad')
-			}
-		} catch (err) {
-			alert('Server error: ' + err.message)
-		}
-
-		//resets comment input field
-		setNewCommentContent('...')
 	}
 
 	const fetchMore = async () => {
@@ -230,7 +191,7 @@ function Current() {
 		}
 		setEvents((prev) => [...prev, ...next]);
 	};
-	//Fetches all types of events currently in the database on components initial load
+
 	useEffect(() => {
 		const fetchEventTypes = (async () => {
 			const res = await fetch(
@@ -240,56 +201,57 @@ function Current() {
 			const filteredData = [...new Set(data.map(event => event.type).sort())]
 			setTypes(filteredData)
 		})()
-	}, {})
+	}, [])
 
 	return (
 		<div className="page">
 			<h2>Aktuellt</h2>
 			<p>Aktuella polishändelser i Sverige</p>
-			
-			<div className="dropDown-Wrapper">
-				<button 
-					className="dropDown-Button" 
-					type="button" 
+
+			<div className="menu-wrapper">
+				<button
+					className="dropdown-menu-button"
+					type="button"
 					onClick={() => setLocationDropDownOpen(!locationDropDownOpen)}
 				>
 					Plats
 				</button>
 
 				{locationDropDownOpen && (
-					<div className="dropDown-Content">
-							{locationMasterKey.map((region) => (
-							<label className="dropDown-Item">{region[0]}
+					<div className="filter-dropdown-menu">
+						{locationMasterKey.map((region) => (
+							<label className="filter-dropdown-item" key={region[0]}>
+								{region[0]}
 								<input
 									type="checkbox"
 									name={region[0]}
-									checked={selectedRegion.region}
+									checked={!!selectedRegion[region[0]]}
 									onChange={handleLocationChange}
 								/>
 							</label>
-						))}				
+						))}
 					</div>
 				)}
-				
 			</div>
 
-			<div className="dropDown-Wrapper">
-				<button 
-					className="dropDown-Button" 
-					type="button" 
+			<div className="menu-wrapper">
+				<button
+					className="dropdown-menu-button"
+					type="button"
 					onClick={() => setEventTypeDropDownOpen(!eventTypeDropDownOpen)}
 				>
 					Typ
 				</button>
 
 				{eventTypeDropDownOpen && (
-					<div className="dropDown-Content">
+					<div className="filter-dropdown-menu">
 						{types.map((type) => (
-							<label className="dropDown-Item">{type}
+							<label className="filter-dropdown-item" key={type}>
+								{type}
 								<input
 									type="checkbox"
 									name={type}
-									checked={selectedTypes.type}
+									checked={!!selectedTypes[type]}
 									onChange={handleTypeChange}
 								/>
 							</label>
@@ -347,16 +309,16 @@ function Current() {
 							/>
 						)}
 
-            <CommentSection eventId={selected.eventId} />
+						<CommentSection eventId={selected.eventId} />
 
-            <button className="modal-close" onClick={() => setSelected(null)} style={{ marginTop: '20px' }}>
-              Stäng
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
-  )
+						<button className="modal-close" onClick={() => setSelected(null)} style={{ marginTop: '20px' }}>
+							Stäng
+						</button>
+					</div>
+				</div>
+			)}
+		</div>
+	)
 }
 
 export default Current;
