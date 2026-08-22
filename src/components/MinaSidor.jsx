@@ -1,15 +1,3 @@
-import { useNavigate } from 'react-router-dom'
-
-function getCurrentUser() {
-  const token = localStorage.getItem('token')
-  if (!token) return null
-  try {
-    return JSON.parse(atob(token.split('.')[1]))
-  } catch {
-    return null
-  }
-}
-
 function MinaSidor() {
   const savedUser = JSON.parse(localStorage.getItem('user')) || {}
 
@@ -21,20 +9,6 @@ function MinaSidor() {
 
   const comments = []
   const savedEvents = []
-
-  const handleLogout = () => {
-    localStorage.removeItem('token')
-    navigate('/')
-  }
-
-  if (!user) {
-    return (
-      <div className="page">
-        <h2>Mina sidor</h2>
-        <p>Du är inte inloggad. Logga in för att se din profil.</p>
-      </div>
-    )
-  }
 
   return (
     <div className="page">
