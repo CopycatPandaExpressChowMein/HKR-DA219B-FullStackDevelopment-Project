@@ -376,3 +376,153 @@ main {
 		grid-template-columns: 1fr;
 	}
 }
+
+/* dropdown filter */
+.dropDown-Wrapper {
+	position: relative;
+	display: inline-block;
+	margin-right: 12px;
+}
+
+.dropDown-Button {
+	padding: 12px 20px;
+	border: 2px solid var(--primary);
+	border-radius: 999px;
+	background: var(--surface);
+	color: var(--primary);
+	font-size: 1rem;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.dropDown-Button:hover {
+	background: var(--accent);
+}
+
+.dropDown-Content {
+	position: absolute;
+	top: calc(100% + 8px);
+	left: 0;
+	z-index: 30;
+	min-width: 200px;
+	max-height: 300px;
+	overflow-y: auto;
+	display: grid;
+	gap: 4px;
+	padding: 10px;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: 16px;
+	box-shadow: var(--shadow);
+}
+
+.dropDown-Item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 10px 12px;
+	border-radius: 10px;
+	color: var(--text);
+	cursor: pointer;
+}
+
+.dropDown-Item:hover {
+	background: var(--accent);
+}
+
+.dropDown-Item input[type="checkbox"] {
+	width: 18px;
+	height: 18px;
+	accent-color: var(--primary);
+	cursor: pointer;
+}
+
+/* kommentarer */
+.commentWrapper {
+	width: 100%;
+	margin-top: 32px;
+	padding: 24px;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-top: 3px solid var(--gold);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow);
+}
+
+.commentContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	max-height: 400px;
+	overflow-y: auto;
+}
+
+.comment {
+	padding: 16px;
+	border: 1px solid var(--line);
+	border-radius: 14px;
+	background: #f5f5f5;
+}
+
+.commentAuthor {
+	margin: 0 0 6px;
+	font-size: 1rem;
+	color: var(--primary);
+}
+
+.commentBody {
+	margin: 0 0 8px;
+	color: var(--text);
+	line-height: 1.5;
+}
+
+.commentDate {
+	margin: 0;
+	font-size: 0.8rem;
+	color: var(--muted);
+}
+
+.commentInput {
+	display: flex;
+	gap: 10px;
+	margin-top: 20px;
+	padding-top: 20px;
+	border-top: 1px solid var(--line);
+}
+
+.commentInput input {
+	flex: 1;
+	min-width: 0;
+	padding: 12px 14px;
+	border: 1px solid var(--line);
+	border-radius: 10px;
+	font-family: Arial, sans-serif;
+	font-size: 1rem;
+	background: var(--surface);
+	color: var(--text);
+}
+
+.commentInput input:focus {
+	outline: 2px solid var(--accent);
+	border-color: var(--primary);
+}
+
+.sendCommentBtn {
+	padding: 12px 20px;
+	border: 2px solid var(--primary);
+	border-radius: 999px;
+	background: var(--primary);
+	color: var(--gold);
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.sendCommentBtn:hover {
+	background: #002477;
+}
+
+.sendCommentBtn:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
