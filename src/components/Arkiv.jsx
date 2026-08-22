@@ -38,9 +38,11 @@ function Arkiv() {
     const [selectedRegion, setSelectedRegion] = useState({})
 
     const [eventTypeDropDownOpen, setEventTypeDropDownOpen] = useState(false)
-    const [types, setTypes] = useState({})
+    const [types, setTypes] = useState([])
     const [selectedTypes, setSelectedTypes] = useState({})
-    
+
+    const [newCommentContent, setNewCommentContent] = useState("");
+
     const handleLocationChange = (e) => {
         const target = e.target
         const value = target.checked
@@ -58,6 +60,28 @@ function Arkiv() {
         setHasMore(true)
         setEvents([])
     }
+
+    const handleCommentSend = async () => {
+        if (!newCommentContent.trim() || !selected) return;
+
+        const res = await fetch(
+            `${window.location.origin}/CRUD/archived_events/${selected.eventId}/comments`,
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ body: newCommentContent }),
+            }
+        );
+
+        if (res.ok) {
+            const newComment = await res.json();
+            setSelected((prev) => ({
+                ...prev,
+                comments: [...prev.comments, newComment],
+            }));
+            setNewCommentContent("");
+        }
+    };
 
     const fetchMore = async () => {
 
@@ -81,7 +105,7 @@ function Arkiv() {
         }
         setEvents((prev) => [...prev, ...next]);
     };
-    //Fetches all types of events currently in the database on components initial load
+
     useEffect(() => {
         const fetchEventTypes = (async () => {
             const res = await fetch(
@@ -91,56 +115,57 @@ function Arkiv() {
             const filteredData = [...new Set(data.map(event => event.type).sort())]
             setTypes(filteredData)
         })()
-    }, {})
+    }, [])
 
     return (
         <div className="page">
             <h2>Arkiv</h2>
             <p>Arkiverade polishändelser i Sverige</p>
-            
-            <div className="dropDown-Wrapper">
-                <button 
-                    className="dropDown-Button" 
-                    type="button" 
+
+            <div className="menu-wrapper">
+                <button
+                    className="dropdown-menu-button"
+                    type="button"
                     onClick={() => setLocationDropDownOpen(!locationDropDownOpen)}
                 >
                     Plats
                 </button>
 
                 {locationDropDownOpen && (
-                    <div className="dropDown-Content">
-                            {locationMasterKey.map((region) => (
-                            <label className="dropDown-Item">{region[0]}
+                    <div className="filter-dropdown-menu">
+                        {locationMasterKey.map((region) => (
+                            <label className="filter-dropdown-item" key={region[0]}>
+                                {region[0]}
                                 <input
                                     type="checkbox"
                                     name={region[0]}
-                                    checked={selectedRegion.region}
+                                    checked={!!selectedRegion[region[0]]}
                                     onChange={handleLocationChange}
                                 />
                             </label>
-                        ))}				
+                        ))}
                     </div>
                 )}
-                
             </div>
 
-            <div className="dropDown-Wrapper">
-                <button 
-                    className="dropDown-Button" 
-                    type="button" 
+            <div className="menu-wrapper">
+                <button
+                    className="dropdown-menu-button"
+                    type="button"
                     onClick={() => setEventTypeDropDownOpen(!eventTypeDropDownOpen)}
                 >
                     Typ
                 </button>
 
                 {eventTypeDropDownOpen && (
-                    <div className="dropDown-Content">
+                    <div className="filter-dropdown-menu">
                         {types.map((type) => (
-                            <label className="dropDown-Item">{type}
+                            <label className="filter-dropdown-item" key={type}>
+                                {type}
                                 <input
                                     type="checkbox"
                                     name={type}
-                                    checked={selectedTypes.type}
+                                    checked={!!selectedTypes[type]}
                                     onChange={handleTypeChange}
                                 />
                             </label>
@@ -198,36 +223,41 @@ function Arkiv() {
                             />
                         )}
 
-                        <div className="commentWrapper">
-                            <div className="commentContainer">
-                                {selected.comments.map((comment) => (
-                                    <div className="comment">
-                                        <h4 className="commentAuthor">{comment.author}</h4>
-                                        <p className="commentBody">{comment.body}</p>
-                                        <p className="commentDate">{comment.date}</p>
-                                    </div>
-                                ))}
-                            </div>							
+                        <div className="comment-section">
+                            <h4>Kommentarer</h4>
 
-                            <div className="commentInput">
+                            {selected.comments.length === 0 && (
+                                <p className="comment-empty">Inga kommentarer än.</p>
+                            )}
+
+                            {selected.comments.map((comment, i) => (
+                                <div className="comment-item" key={i}>
+                                    <div className="comment-meta">
+                                        <span className="comment-author">{comment.author}</span>
+                                        <span className="comment-time">{comment.date}</span>
+                                    </div>
+                                    <p className="comment-text">{comment.body}</p>
+                                </div>
+                            ))}
+
+                            <div className="comment-input-row">
                                 <input
+                                    className="login-input"
                                     type="text"
                                     id="newCommentContent"
                                     name="newCommentContent"
-                                    placeholder="..."
+                                    placeholder="Skriv en kommentar..."
                                     value={newCommentContent}
-                                    disabled
+                                    onChange={(e) => setNewCommentContent(e.target.value)}
                                 />
                                 <button
-                                    className="sendCommentBtn"
+                                    className="comment-submit-btn"
                                     type="button"
                                     onClick={handleCommentSend}
-                                    disabled
                                 >
                                     Skicka
                                 </button>
                             </div>
-                            
                         </div>
 
                         <button

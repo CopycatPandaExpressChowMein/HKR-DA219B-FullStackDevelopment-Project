@@ -1,6 +1,114 @@
 import { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
+function getSessionId() {
+  let id = localStorage.getItem('sessionId')
+  if (!id) {
+    id = Math.random().toString(36).slice(2)
+    localStorage.setItem('sessionId', id)
+  }
+  return id
+}
+
+function getCurrentUser() {
+  const token = localStorage.getItem('token')
+  if (!token) return null
+  try {
+    return JSON.parse(atob(token.split('.')[1]))
+  } catch {
+    return null
+  }
+}
+
+function CommentSection({ eventId }) {
+  const [comments, setComments] = useState([])
+  const [text, setText] = useState('')
+  const [loading, setLoading] = useState(true)
+  const sessionId = getSessionId()
+  const user = getCurrentUser()
+  const authorName = user?.username || 'Anonym'
+
+  useEffect(() => {
+    fetch(`/CRUD/comments/${eventId}`)
+      .then(res => res.json())
+      .then(data => { setComments(data); setLoading(false) })
+      .catch(() => setLoading(false))
+  }, [eventId])
+
+  const postComment = async () => {
+    if (!text.trim()) return
+    const res = await fetch(`/CRUD/comments`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ eventId, text, author: authorName, sessionId }),
+    })
+    const newComment = await res.json()
+    setComments(prev => [...prev, newComment])
+    setText('')
+  }
+
+  const deleteComment = async (commentId, commentSessionId) => {
+    if (commentSessionId !== sessionId) return
+    await fetch(`/CRUD/comments/${commentId}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId }),
+    })
+    setComments(prev => prev.filter(c => c._id !== commentId))
+  }
+
+  const isOwn = (c) => c.sessionId === sessionId
+
+  return (
+    <div className="comment-section">
+      <h4>Kommentarer ({comments.length})</h4>
+
+      {loading && <p>Laddar kommentarer...</p>}
+      {!loading && comments.length === 0 && (
+        <p className="comment-empty">Inga kommentarer</p>
+      )}
+
+      {comments.map(c => (
+        <div key={c._id} className={`comment-item${isOwn(c) ? ' own' : ''}`}>
+          <div className="comment-meta">
+            <span className="comment-author">
+              {c.author}
+              {isOwn(c) && <span className="comment-author-label">(du)</span>}
+            </span>
+            <span className="comment-time">
+              {new Date(c.createdAt).toLocaleString('sv-SE')}
+            </span>
+          </div>
+          <p className="comment-text">{c.text}</p>
+          {isOwn(c) && (
+            <button
+              className="comment-delete-btn"
+              onClick={() => deleteComment(c._id, c.sessionId)}
+            >
+              Ta bort
+            </button>
+          )}
+        </div>
+      ))}
+
+      <div className="comment-input-row">
+        <input
+          className="login-input"
+          type="text"
+          placeholder="Skriv en kommentar."
+          value={text}
+          onChange={e => setText(e.target.value)}
+          onKeyDown={e => { if (e.key === 'Enter') postComment() }}
+          style={{ margin: 0 }}
+        />
+        <button className="comment-submit-btn" onClick={postComment}>
+          Skicka
+        </button>
+      </div>
+    </div>
+  )
+}
+
 function Current() {
 	//Alla regioner i sverige, ska fyllas i med kommun med
 	const locationMasterKey = [
@@ -40,11 +148,9 @@ function Current() {
 	const [selectedRegion, setSelectedRegion] = useState({})
 
 	const [eventTypeDropDownOpen, setEventTypeDropDownOpen] = useState(false)
-	const [types, setTypes] = useState({})
+	const [types, setTypes] = useState([])
 	const [selectedTypes, setSelectedTypes] = useState({})
 
-	const [newCommentContent, setNewCommentContent] = useState('')
-	
 	const handleLocationChange = (e) => {
 		const target = e.target
 		const value = target.checked
@@ -61,43 +167,6 @@ function Current() {
 		setSelectedTypes(values => ({...values, [name]: value}))
 		setHasMore(true)
 		setEvents([])
-	}
-
-	const handleCommentSend = async (e) => {
-		const userInfo = JSON.parse(localStorage.getItem('user'))
-		const userToken = localStorage.getItem('token')
-
-		const newComment = {
-			author: userInfo.name,
-			commentBody: newCommentContent,
-			eventId: selected._id
-		}
-
-		const url = `${window.location.origin}/CRUD/create_comment`
-
-		try {
-			const res = await fetch(url, {
-				method: 'POST',
-				headers: {
-					'Authorization': `Bearer ${userToken}`,
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(newComment)
-			})
-
-			if (!res.ok) {
-        		alert(data.message || 'Något gick fel')
-        		return
-			}
-			else{
-				alert('Kommentar skickad')
-			}
-		} catch (err) {
-			alert('Server error: ' + err.message)
-		}
-
-		//resets comment input field
-		setNewCommentContent('...')
 	}
 
 	const fetchMore = async () => {
@@ -122,7 +191,7 @@ function Current() {
 		}
 		setEvents((prev) => [...prev, ...next]);
 	};
-	//Fetches all types of events currently in the database on components initial load
+
 	useEffect(() => {
 		const fetchEventTypes = (async () => {
 			const res = await fetch(
@@ -132,56 +201,57 @@ function Current() {
 			const filteredData = [...new Set(data.map(event => event.type).sort())]
 			setTypes(filteredData)
 		})()
-	}, {})
+	}, [])
 
 	return (
 		<div className="page">
 			<h2>Aktuellt</h2>
 			<p>Aktuella polishändelser i Sverige</p>
-			
-			<div className="dropDown-Wrapper">
-				<button 
-					className="dropDown-Button" 
-					type="button" 
+
+			<div className="menu-wrapper">
+				<button
+					className="dropdown-menu-button"
+					type="button"
 					onClick={() => setLocationDropDownOpen(!locationDropDownOpen)}
 				>
 					Plats
 				</button>
 
 				{locationDropDownOpen && (
-					<div className="dropDown-Content">
-							{locationMasterKey.map((region) => (
-							<label className="dropDown-Item">{region[0]}
+					<div className="filter-dropdown-menu">
+						{locationMasterKey.map((region) => (
+							<label className="filter-dropdown-item" key={region[0]}>
+								{region[0]}
 								<input
 									type="checkbox"
 									name={region[0]}
-									checked={selectedRegion.region}
+									checked={!!selectedRegion[region[0]]}
 									onChange={handleLocationChange}
 								/>
 							</label>
-						))}				
+						))}
 					</div>
 				)}
-				
 			</div>
 
-			<div className="dropDown-Wrapper">
-				<button 
-					className="dropDown-Button" 
-					type="button" 
+			<div className="menu-wrapper">
+				<button
+					className="dropdown-menu-button"
+					type="button"
 					onClick={() => setEventTypeDropDownOpen(!eventTypeDropDownOpen)}
 				>
 					Typ
 				</button>
 
 				{eventTypeDropDownOpen && (
-					<div className="dropDown-Content">
+					<div className="filter-dropdown-menu">
 						{types.map((type) => (
-							<label className="dropDown-Item">{type}
+							<label className="filter-dropdown-item" key={type}>
+								{type}
 								<input
 									type="checkbox"
 									name={type}
-									checked={selectedTypes.type}
+									checked={!!selectedTypes[type]}
 									onChange={handleTypeChange}
 								/>
 							</label>
@@ -239,53 +309,16 @@ function Current() {
 							/>
 						)}
 
-						<div className="commentWrapper">
-							<div className="commentContainer">
-								{selected.comments.map((comment) => (
-									<div className="comment">
-										<h4 className="commentAuthor">{comment.author}</h4>
-										<p className="commentBody">{comment.body}</p>
-										<p className="commentDate">{comment.date}</p>
-									</div>
-								))}
-							</div>							
+						<CommentSection eventId={selected.eventId} />
 
-							<div className="commentInput">
-								<input
-									type="text"
-									id="newCommentContent"
-									name="newCommentContent"
-									placeholder="..."
-									value={newCommentContent}
-									onChange={
-										(e) => {
-											setNewCommentContent(e.target.value)
-										}}
-								/>
-								<button
-									className="sendCommentBtn"
-									type="button"
-									onClick={handleCommentSend}
-									disabled={isLoggedIn}
-								>
-									Skicka
-								</button>
-							</div>
-							
-						</div>
-
-						<button
-							className="modal-close"
-							onClick={() => setSelected(null)}
-							style={{ marginTop: "15px" }}
-						>
+						<button className="modal-close" onClick={() => setSelected(null)} style={{ marginTop: '20px' }}>
 							Stäng
 						</button>
 					</div>
 				</div>
 			)}
 		</div>
-	);
+	)
 }
 
 export default Current;
